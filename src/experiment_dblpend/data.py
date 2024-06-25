@@ -3,7 +3,6 @@
 
 import jax
 import jax.numpy as jnp
-from jax import random
 import numpy as np # get rid of this eventually
 from jax.experimental.ode import odeint
 from functools import partial # reduces arguments to function by making some subset implicit
@@ -14,14 +13,14 @@ from .physics import lagrangian_fn, analytical_fn
 
 
 @partial(jax.jit, backend='cpu')
-def get_trajectory(y0, times, use_lagrangian=False, mxstep=100, **kwargs):
+def get_trajectory(y0, times, use_lagrangian=False, , **kwargs):
   # frames = int(fps*(t_span[1]-t_span[0]))
   # times = jnp.linspace(t_span[0], t_span[1], frames)
   # y0 = np.array([3*np.pi/7, 3*np.pi/4, 0, 0], dtype=np.float32)
   if use_lagrangian:
     y = solve_dynamics(lagrangian_fn, y0, t=times, is_lagrangian=True, rtol=1e-10, atol=1e-10, **kwargs)
   else:
-    y = odeint(analytical_fn, y0, t=times, rtol=1e-10, atol=1e-10, mxstep=mxstep, **kwargs)
+    y = odeint(analytical_fn, y0, t=times, rtol=1e-10, atol=1e-10, mxstep, **kwargs)
   return y
 
 @partial(jax.jit, backend='cpu')
