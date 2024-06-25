@@ -12,6 +12,7 @@ from jax.example_libraries import optimizers
 from ..lnn import lagrangian_eom, unconstrained_eom
 from ..models import mlp
 from ..utils import wrap_coords
+from .data import get_dataset
 
 
 def get_args():
@@ -115,13 +116,12 @@ def train(args, model, data):
 
 if __name__ == "__main__":
     args = ObjectView(get_args())
-    dblpend.get_dataset(t_span=[0, args.dataset_size], fps=1, samples=1)
+    get_dataset(t_span=[0, args.dataset_size], fps=1, samples=1)
 
-    mlp = lagrangian_nns.mlp
     rng = jax.random.PRNGKey(args.seed)
     init_random_params, nn_forward_fn = mlp(args)
     _, init_params = init_random_params(rng, (-1, 4))
     model = (nn_forward_fn, init_params)
-    data = dblpend.get_dataset(t_span=[0, args.dataset_size], fps=1, samples=1)
+    data = get_dataset(t_span=[0, args.dataset_size], fps=1, samples=1)
 
     result = train(args, model, data)

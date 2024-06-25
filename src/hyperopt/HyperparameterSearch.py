@@ -8,11 +8,10 @@ from jax.example_libraries import optimizers, stax
 from jax.example_libraries.stax import Dense, Relu, Softplus, Tanh, elementwise
 from jax.tree_util import tree_flatten
 
-
 from ..experiment_dblpend.data import get_trajectory_analytic
 from ..experiment_dblpend.physics import analytical_fn
-from ..utils import wrap_coords
 from ..lnn import lagrangian_eom_rk4
+from ..utils import wrap_coords
 
 
 class ObjectView(object):
