@@ -8,9 +8,9 @@
 #       format_version: '1.3'
 #       jupytext_version: 1.16.2
 #   kernelspec:
-#     display_name: main2
+#     display_name: .venv
 #     language: python
-#     name: main2
+#     name: python3
 # ---
 
 # %%
@@ -27,7 +27,7 @@ from jax.experimental.ode import odeint
 from matplotlib import pyplot as plt
 from tqdm.notebook import tqdm
 
-from lnn import custom_init
+from lnn.lnn import custom_init
 from lnn.hyperopt.HyperparameterSearch import extended_mlp
 
 # %%
