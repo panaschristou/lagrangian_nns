@@ -6,26 +6,16 @@ from jax import jit
 from jax.experimental.ode import odeint
 from functools import partial # reduces arguments to function by making some subset implicit
 
-from jax.experimental import stax
-from jax.experimental import optimizers
-
-import os, sys, time
-sys.path.append('..')
-
+from jax.example_libraries import stax
+from jax.example_libraries import optimizers
 
 # ## Set up LNN:
 
-
-sys.path.append('../experiment_dblpend/')
 
 from lnn import raw_lagrangian_eom
 from data import get_dataset
 from models import mlp as make_mlp
 from utils import wrap_coords
-
-
-sys.path.append('../hyperopt')
-
 
 from HyperparameterSearch import learned_dynamics
 
@@ -46,7 +36,7 @@ from data import get_trajectory_analytic
 from physics import analytical_fn
 
 vfnc = jax.jit(jax.vmap(analytical_fn))
-vget = partial(jax.jit, backend='cpu')(jax.vmap(partial(get_trajectory_analytic, mxsteps=100), (0, None), 0))
+vget = partial(jax.jit, backend='cpu')(jax.vmap(partial(get_trajectory_analytic, mxstep=100), (0, None), 0))
 
 
 import pickle as pkl
@@ -91,7 +81,7 @@ while True:
 
 
     vfnc = jax.jit(jax.vmap(analytical_fn, 0, 0))
-    vget = partial(jax.jit, backend='cpu')(jax.vmap(partial(get_trajectory_analytic, mxsteps=100), (0, None), 0))
+    vget = partial(jax.jit, backend='cpu')(jax.vmap(partial(get_trajectory_analytic, mxstep=100), (0, None), 0))
 
     batch = 60
 

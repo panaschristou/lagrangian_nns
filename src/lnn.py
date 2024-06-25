@@ -56,14 +56,14 @@ def lagrangian_eom_rk4(lagrangian, state, n_updates, Dt=1e-1, t=None):
     return update
     
 
-def solve_dynamics(dynamics_fn, initial_state, is_lagrangian=True, **kwargs):
+def solve_dynamics(dynamics_fn, initial_state, is_lagrangian=True, mxstep=100, **kwargs):
   eom = lagrangian_eom if is_lagrangian else unconstrained_eom
 
   # We currently run odeint on CPUs only, because its cost is dominated by
   # control flow, which is slow on GPUs.
   @partial(jax.jit, backend='cpu')
   def f(initial_state):
-    return odeint(partial(eom, dynamics_fn), initial_state, **kwargs)
+    return odeint(partial(eom, dynamics_fn), initial_state, mxstep=mxstep, **kwargs)
   return f(initial_state)
 
 

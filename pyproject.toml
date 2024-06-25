@@ -1,5 +1,5 @@
 [project]
-name = "lagrangian-nns"
+name = "lnn"
 version = "0.1.0"
 description = "Add your description here"
 authors = [
@@ -8,13 +8,15 @@ authors = [
 dependencies = [
     "jax>=0.4.30",
     "numpy>=2.0.0",
+    "matplotlib>=3.9.0",
+    "moviepy>=1.0.3",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
 
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["setuptools>=40.8.0", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [tool.rye]
 managed = true
@@ -26,6 +28,3 @@ dev-dependencies = [
 
 [tool.hatch.metadata]
 allow-direct-references = true
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/lagrangian_nns"]
