@@ -24,6 +24,7 @@ dev-dependencies = [
     "jupyter>=1.0.0",
     "ipython>=8.25.0",
     "ipykernel>=6.29.4",
+    "ruff>=0.4.10",
 ]
 
 [tool.hatch.metadata]
