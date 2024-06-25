@@ -6,7 +6,7 @@ from functools import partial
 
 import jax
 import jax.numpy as jnp
-import numpy as np  # get rid of this eventually
+import numpy as np
 from jax.example_libraries import optimizers
 
 from ..lnn import lagrangian_eom, unconstrained_eom

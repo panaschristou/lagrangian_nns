@@ -3,7 +3,7 @@
 
 # visualization
 import matplotlib.pyplot as plt
-import numpy as np  # get rid of this eventually
+import numpy as np
 from matplotlib.patches import Circle
 
 from .utils import radial2cartesian

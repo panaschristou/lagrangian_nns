@@ -5,7 +5,7 @@ from functools import partial
 
 import jax
 import jax.numpy as jnp
-import numpy as np  # get rid of this eventually
+import numpy as np
 from jax.experimental.ode import odeint
 
 from ..lnn import solve_dynamics
