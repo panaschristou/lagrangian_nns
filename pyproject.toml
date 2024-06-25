@@ -25,6 +25,3 @@ dev-dependencies = [
     "ipykernel>=6.29.4",
     "ruff==0.4.10",
 ]
-
-[tool.ruff]
-extend-include = ["*.ipynb"]
