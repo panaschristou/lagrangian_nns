@@ -27,5 +27,5 @@ dev-dependencies = [
     "ruff==0.4.10",
 ]
 
-[tool.hatch.metadata]
-allow-direct-references = true
+[tool.ruff]
+extend-include = ["*.ipynb"]
