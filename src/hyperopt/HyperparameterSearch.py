@@ -230,14 +230,6 @@ def train(args, model, data, rng):
     return params, train_losses, test_losses, best_loss
 
 
-data = new_get_dataset(
-    jax.random.PRNGKey(0),
-    t_span=[0, dataset_size],
-    fps=fps,
-    samples=samples,
-    test_split=0.9,
-)
-
 # args = ObjectView(dict(
 # num_epochs=100, #40000
 # loss='l1',
@@ -254,20 +246,26 @@ data = new_get_dataset(
 # batch_size=32,
 # ))
 
+if __name__ == "__main__":
+    data = new_get_dataset(
+            jax.random.PRNGKey(0),
+        t_span=[0, dataset_size],
+        fps=fps,
+        samples=samples,
+        test_split=0.9,
+    )
 
-def test_args(args):
-    print("Running on", args.__dict__)
-    rng = jax.random.PRNGKey(0)
-    init_random_params, nn_forward_fn = extended_mlp(args)
-    _, init_params = init_random_params(rng + 1, (-1, 4))
-    model = (nn_forward_fn, init_params)
+    def test_args(args):
+        print("Running on", args.__dict__)
+        rng = jax.random.PRNGKey(0)
+        init_random_params, nn_forward_fn = extended_mlp(args)
+        _, init_params = init_random_params(rng + 1, (-1, 4))
+        model = (nn_forward_fn, init_params)
 
-    result = train(args, model, data, rng + 3)
-    print(result[3], "is the loss for", args.__dict__)
+        result = train(args, model, data, rng + 3)
+        print(result[3], "is the loss for", args.__dict__)
 
-    if not jnp.isfinite(result[3]).sum():
-        return {"status": "fail", "loss": float("inf")}
-    return {"status": "ok", "loss": float(result[3])}
+        if not jnp.isfinite(result[3]).sum():
+            return {"status": "fail", "loss": float("inf")}
+        return {"status": "ok", "loss": float(result[3])}
 
-
-# test_args(args)
