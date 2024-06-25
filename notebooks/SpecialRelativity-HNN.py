@@ -95,12 +95,7 @@ def gen_data(seed, batch, num):
 
     y0 = jnp.stack([q0, qt0, g]).T.ravel()
 
-    yt = odeint(
-        ofunc,
-        y0,
-        jnp.linspace(0, 1, num=num),
-        mxstep=300
-    )
+    yt = odeint(ofunc, y0, jnp.linspace(0, 1, num=num), mxstep=300)
 
     qall = yt[:, ::3]
     qtall = yt[:, 1::3]
@@ -369,7 +364,7 @@ for i in tqdm(range(1)):
         odefunc_learned,
         jnp.concatenate([cstate[0], cconditionals[0]]),
         np.linspace(0, 1, 50),
-        mxstep=100
+        mxstep=100,
     )
 
     cax = ax  # [ci[0], ci[1]]
