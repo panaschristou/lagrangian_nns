@@ -24,4 +24,7 @@ dev-dependencies = [
     "ipython>=8.25.0",
     "ipykernel>=6.29.4",
     "ruff==0.4.10",
+    "hyperopt>=0.2.7",
+    "jupytext>=1.16.2",
+    "bayesian-optimization>=1.4.0",
 ]
