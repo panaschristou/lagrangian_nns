@@ -20,12 +20,12 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 from bayes_opt import BayesianOptimization
-from hyperopt import Trials, fmin, hp, tpe
 from jax import grad, vmap
 from jax.example_libraries import optimizers
 from matplotlib import pyplot as plt
 from sklearn.gaussian_process import GaussianProcessRegressor
 
+from hyperopt import Trials, fmin, hp, tpe
 from lnn.experiment_dblpend.data import get_trajectory_analytic
 from lnn.experiment_dblpend.lnn import raw_lagrangian_eom
 from lnn.experiment_dblpend.physics import analytical_fn
