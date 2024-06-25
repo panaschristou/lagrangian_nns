@@ -569,7 +569,7 @@ def kinetic_energy(state, m1=1, m2=1, l1=1, l2=1, g=9.8):
 @jit
 def potential_energy(state, m1=1, m2=1, l1=1, l2=1, g=9.8):
     q, q_dot = jnp.split(state, 2)
-    (t1, t2), (w1, w2) = q, q_dot
+    (t1, t2), (_, _) = q, q_dot
 
     y1 = -l1 * jnp.cos(t1)
     y2 = y1 - l2 * jnp.cos(t2)
@@ -827,6 +827,7 @@ for _i in range(1000):
     loss = make_loss(args)
     from copy import deepcopy as copy
 
+    data = data  # noqa
     train(args, model, data, rng)
 
     @jax.jit

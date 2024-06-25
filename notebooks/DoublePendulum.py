@@ -14,7 +14,6 @@
 # ---
 
 # %%
-import importlib
 import pickle as pkl
 from copy import deepcopy as copy
 from functools import partial
@@ -605,6 +604,7 @@ for _i in range(1000):
     )  ##lambda i: jnp.select([i<10000, i>= 10000], [args.lr, args.lr2]))
     opt_state = opt_init(init_params)
     loss = make_loss(args)
+    data = data  # noqa
     train(args, model, data, rng)
 
     @jax.jit
@@ -695,9 +695,6 @@ for _i in range(1000):
             open("params_for_loss_{}_nupdates=1.pkl".format(best_loss), "wb"),
         )
 
-
-# %%
-importlib.reload(lnn)
 
 # %%
 

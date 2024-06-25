@@ -499,6 +499,7 @@ for _i in range(1000):
     opt_state = opt_init(init_params)
     loss = make_loss(args)
 
+    data = data  # noqa
     train(args, model, data, rng)
 
     @jax.jit
