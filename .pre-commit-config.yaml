@@ -12,8 +12,10 @@ repos:
     rev: v0.4.10
     hooks:
       - id: ruff
+        types_or: [ python, pyi, jupyter ]
         args: [ --fix ]
       - id: ruff-format
+        types_or: [ python, pyi, jupyter ]
   # Stripping notebooks
   - repo: https://github.com/kynan/nbstripout
     rev: 0.7.1
