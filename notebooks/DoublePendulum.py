@@ -26,6 +26,9 @@ from jax import jit
 from jax.example_libraries import optimizers
 from jax.experimental.ode import odeint
 from jax.tree_util import tree_flatten
+from matplotlib import pyplot as plt
+from tqdm.notebook import tqdm
+
 from lnn.experiment_dblpend.data import get_trajectory_analytic
 from lnn.experiment_dblpend.physics import analytical_fn
 from lnn.hyperopt import HyperparameterSearch
@@ -33,13 +36,8 @@ from lnn.hyperopt.HyperparameterSearch import (extended_mlp, learned_dynamics,
                                                make_loss, new_get_dataset,
                                                train)
 from lnn.lnn import custom_init, raw_lagrangian_eom
-from matplotlib import pyplot as plt
-from tqdm.notebook import tqdm
 
 print(jax.__version__)
-
-
-
 
 
 # %%
@@ -696,7 +694,6 @@ for _i in range(1000):
             {"params": best_params, "args": args},
             open("params_for_loss_{}_nupdates=1.pkl".format(best_loss), "wb"),
         )
-
 
 
 # %%

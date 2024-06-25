@@ -27,12 +27,13 @@ from jax import jit
 from jax.example_libraries import optimizers
 from jax.experimental.ode import odeint
 from jax.tree_util import tree_flatten
+from matplotlib import pyplot as plt
+from tqdm.notebook import tqdm
+
 from lnn.hyperopt import HyperparameterSearch
 from lnn.hyperopt.HyperparameterSearch import (extended_mlp, make_loss,
                                                new_get_dataset, train)
 from lnn.lnn import custom_init
-from matplotlib import pyplot as plt
-from tqdm.notebook import tqdm
 
 
 # %%
@@ -308,7 +309,6 @@ def OneCycleLR(pct):
     scale = 1.0 - (jnp.cos(2 * jnp.pi * pct) + 1) / 2
 
     return low + (high - low) * scale
-
 
 
 opt_init, opt_update, get_params = optimizers.adam(OneCycleLR)
@@ -911,7 +911,6 @@ for _i in range(1000):
             {"params": best_params, "args": args},
             open("params_for_loss_{}_nupdates=1.pkl".format(best_loss), "wb"),
         )
-
 
 
 # %%

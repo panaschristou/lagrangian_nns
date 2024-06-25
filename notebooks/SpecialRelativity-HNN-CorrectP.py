@@ -24,9 +24,10 @@ import numpy as np
 from jax import jit
 from jax.example_libraries import optimizers
 from jax.experimental.ode import odeint
-from lnn.hyperopt.HyperparameterSearch import extended_mlp
 from matplotlib import pyplot as plt
 from tqdm.notebook import tqdm
+
+from lnn.hyperopt.HyperparameterSearch import extended_mlp
 
 # %%
 
@@ -139,7 +140,6 @@ def gen_data_batch(seed, batch):
 # %%
 cstate, cconditionals, ctarget = gen_data_batch(0, 5)
 cstate, cconditionals, ctarget
-
 
 
 # %%

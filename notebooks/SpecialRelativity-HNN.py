@@ -23,9 +23,10 @@ import numpy as np
 from jax import jit
 from jax.example_libraries import optimizers
 from jax.experimental.ode import odeint
-from lnn.hyperopt.HyperparameterSearch import extended_mlp
 from matplotlib import pyplot as plt
 from tqdm.notebook import tqdm
+
+from lnn.hyperopt.HyperparameterSearch import extended_mlp
 
 
 # %%

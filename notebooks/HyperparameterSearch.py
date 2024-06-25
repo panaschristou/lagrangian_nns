@@ -23,6 +23,7 @@ import jax.numpy as jnp
 import numpy as np
 from jax.example_libraries import optimizers
 from jax.tree_util import tree_flatten
+
 from lnn.experiment_dblpend.data import get_trajectory_analytic
 from lnn.experiment_dblpend.physics import analytical_fn
 from lnn.hyperopt import HyperparameterSearch
@@ -261,7 +262,6 @@ for _i in range(10000):
             {"params": best_params, "args": args},
             open("params_for_loss_{}_nupdates=1.pkl".format(best_loss), "wb"),
         )
-
 
 
 # %%

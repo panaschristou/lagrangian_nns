@@ -23,13 +23,14 @@ from bayes_opt import BayesianOptimization
 from hyperopt import Trials, fmin, hp, tpe
 from jax import grad, vmap
 from jax.example_libraries import optimizers
+from matplotlib import pyplot as plt
+from sklearn.gaussian_process import GaussianProcessRegressor
+
 from lnn.experiment_dblpend.data import get_trajectory_analytic
 from lnn.experiment_dblpend.lnn import raw_lagrangian_eom
 from lnn.experiment_dblpend.physics import analytical_fn
 from lnn.hyperopt import HyperparameterSearch
 from lnn.hyperopt.HyperparameterSearch import extended_mlp, learned_dynamics
-from matplotlib import pyplot as plt
-from sklearn.gaussian_process import GaussianProcessRegressor
 
 # %% [markdown]
 # ## Set up LNN:
@@ -286,6 +287,7 @@ def bb(**kwargs):
 # %%
 # Old stuff:
 
+
 def run_trial(args):
     loss, std = bb(**args)
     if loss == np.nan:
@@ -299,6 +301,7 @@ def run_trial(args):
         "loss": -loss,
         "loss_variance": std,
     }
+
 
 # TODO: Declare your hyperparameter priors here:
 space = {

@@ -24,10 +24,11 @@ import numpy as np
 from jax import jit
 from jax.example_libraries import optimizers
 from jax.experimental.ode import odeint
-from lnn import custom_init
-from lnn.hyperopt.HyperparameterSearch import extended_mlp
 from matplotlib import pyplot as plt
 from tqdm.notebook import tqdm
+
+from lnn import custom_init
+from lnn.hyperopt.HyperparameterSearch import extended_mlp
 
 # %%
 
@@ -142,7 +143,6 @@ print(
     "qtt",
     gen_data_batch(0, 128)[2][:5, 0],
 )
-
 
 
 # %%
