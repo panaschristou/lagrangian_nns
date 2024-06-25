@@ -283,10 +283,8 @@ def bb(**kwargs):
 # %% [markdown]
 # # Bayesian:
 
-# %% [markdown]
-# # Old stuff:
-
-
+# %%
+# Old stuff:
 
 def run_trial(args):
     loss, std = bb(**args)
@@ -301,7 +299,6 @@ def run_trial(args):
         "loss": -loss,
         "loss_variance": std,
     }
-
 
 # TODO: Declare your hyperparameter priors here:
 space = {
