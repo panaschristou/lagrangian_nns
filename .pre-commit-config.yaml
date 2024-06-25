@@ -1,0 +1,31 @@
+repos:
+  # General linting
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+  # General formatting
+  - repo: https://github.com/astral-sh/ruff
+    rev: v0.4.10  # Check for the latest release on the ruff repository
+    hooks:
+      - id: ruff
+  # Stripping notebooks
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.7.1
+    hooks:
+      - id: nbstripout
+        exclude: pysr/test/test_nb.ipynb
+  # Unused imports
+  - repo: https://github.com/hadialqattan/pycln
+    rev: "v2.4.0"
+    hooks:
+      - id: pycln
+  # Sorted imports
+  - repo: https://github.com/PyCQA/isort
+    rev: "5.13.2"
+    hooks:
+      - id: isort
+        additional_dependencies: [toml]
