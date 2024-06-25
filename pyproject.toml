@@ -6,15 +6,15 @@ authors = [
     { name = "MilesCranmer", email = "miles.cranmer@gmail.com" }
 ]
 dependencies = [
-    "jax>=0.4.30",
-    "numpy>=2.0.0",
-    "matplotlib>=3.9.0",
+    "jax>=0.4.0",
+    "numpy>=1.0.0",
+    "matplotlib>=3.0.0",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
 
 [build-system]
-requires = ["setuptools>=40.8.0", "wheel"]
+requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.rye]
@@ -22,9 +22,9 @@ managed = true
 dev-dependencies = [
     "jupyter>=1.0.0",
     "ipython>=8.25.0",
-    "ipykernel>=6.29.4",
-    "ruff==0.4.10",
-    "hyperopt>=0.2.7",
-    "jupytext>=1.16.2",
+    "ipykernel>=6.29.0",
+    "ruff==0.4.0",
+    "hyperopt>=0.2.0",
+    "jupytext>=1.16.0",
     "bayesian-optimization>=1.4.0",
 ]
