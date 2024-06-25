@@ -44,8 +44,13 @@ class ObjectView(object):
 
 # %%
 jjit = jax.jit
+
+
 # jjit = lambda _: _
-ic = lambda *args, **kwargs: None
+def ic(*args, **kwargs):
+    pass
+
+
 # from icecream import ic
 
 
@@ -157,7 +162,7 @@ def analytic_fn(state):
     q_plus = jnp.roll(q, shift=-1)
     q_min = jnp.roll(q, shift=+1)
 
-    q_x = (q_plus - q_min) / (2 * dx)
+    # q_x = (q_plus - q_min) / (2 * dx)
     q_xx = (q_plus - 2 * q + q_min) / (2 * dx)
 
     # Wave equation with constraint:

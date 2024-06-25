@@ -14,7 +14,6 @@
 # ---
 
 # %%
-import importlib
 from copy import deepcopy as copy
 from functools import partial
 
@@ -263,9 +262,6 @@ for _i in range(10000):
             open("params_for_loss_{}_nupdates=1.pkl".format(best_loss), "wb"),
         )
 
-
-# %%
-importlib.reload(lnn)
 
 # %%
 
