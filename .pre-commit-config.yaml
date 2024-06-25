@@ -8,10 +8,12 @@ repos:
       - id: check-yaml
       - id: check-added-large-files
   # General formatting
-  - repo: https://github.com/astral-sh/ruff
-    rev: v0.4.10  # Check for the latest release on the ruff repository
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.4.10
     hooks:
-      - id: ruff
+      # - id: ruff
+      #   args: [ --fix ]
+      - id: ruff-format
   # Stripping notebooks
   - repo: https://github.com/kynan/nbstripout
     rev: 0.7.1

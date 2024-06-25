@@ -1,3 +1,3 @@
-from .data import get_dataset, get_trajectory, analytical_fn
-from .train import get_args, train, learned_dynamics, ObjectView
-from .physics import lagrangian_fn, hamiltonian_fn, analytical_fn
+from .data import analytical_fn, get_dataset, get_trajectory
+from .physics import analytical_fn, hamiltonian_fn, lagrangian_fn
+from .train import ObjectView, get_args, learned_dynamics, train

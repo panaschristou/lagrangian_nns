@@ -2,31 +2,27 @@
 # coding: utf-8
 
 
+import sys
+from functools import \
+    partial  # reduces arguments to function by making some subset implicit
+
 import jax
 import jax.numpy as jnp
 import numpy as np  # get rid of this eventually
-import argparse
 from jax import jit
+from jax.example_libraries import optimizers, stax
 from jax.experimental.ode import odeint
-from functools import (
-    partial,
-)  # reduces arguments to function by making some subset implicit
-
-from jax.example_libraries import stax
-from jax.example_libraries import optimizers
-
-import os, sys, time
 
 sys.path.append("..")
 
 
 sys.path.append("../experiment_dblpend/")
 
-from lnn import lagrangian_eom_rk4, lagrangian_eom, unconstrained_eom
 from data import get_dataset
+
+from lnn import lagrangian_eom, lagrangian_eom_rk4, unconstrained_eom
 from models import mlp as make_mlp
 from utils import wrap_coords
-
 
 sys.path.append("../hyperopt")
 
@@ -39,12 +35,7 @@ class ObjectView(object):
         self.__dict__ = d
 
 
-from data import get_trajectory
-
-
-from data import get_trajectory_analytic
-
-
+from data import get_trajectory, get_trajectory_analytic
 from physics import analytical_fn
 
 vfnc = jax.jit(jax.vmap(analytical_fn))
@@ -90,14 +81,9 @@ args = ObjectView(
 rng = jax.random.PRNGKey(args.seed) + 500
 
 
-from jax.experimental.ode import odeint
-
-
 from HyperparameterSearch import new_get_dataset
-
-
+from jax.experimental.ode import odeint
 from matplotlib import pyplot as plt
-
 
 data = new_get_dataset(
     rng + 2,
@@ -126,8 +112,8 @@ opt_init, opt_update, get_params = opti(
     3e-4
 )  ##lambda i: jnp.select([i<10000, i>= 10000], [args.lr, args.lr2]))
 opt_state = opt_init(init_params)
-from jax.tree_util import tree_flatten
 from HyperparameterSearch import make_loss, train
+from jax.tree_util import tree_flatten
 
 loss = make_loss(args)
 from copy import deepcopy as copy

@@ -7,4 +7,3 @@
 #SBATCH --cpus-per-task=7
 
 srun bash -c "echo $(hostname) $SLURM_PROCID && $HOME/miniconda3/envs/main2/bin/python example.py"
-

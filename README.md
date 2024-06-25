@@ -1,4 +1,4 @@
-[Lagrangian Neural Networks](https://arxiv.org/abs/2003.04630) 
+[Lagrangian Neural Networks](https://arxiv.org/abs/2003.04630)
 =======
 Miles Cranmer, Sam Greydanus, Stephan Hoyer, Peter Battaglia, David Spergel, Shirley Ho
 Accepted to ICLR 2020 Workshop on Deep Differential Equations
@@ -37,5 +37,5 @@ Dependencies
  * NumPy
  * MoviePy (visualization)
  * celluloid (visualization)
- 
+
 This project is written in Python 3.

@@ -1,17 +1,17 @@
 # Generalized Lagrangian Networks | 2020
 # Miles Cranmer, Sam Greydanus, Stephan Hoyer (...)
 
+from functools import \
+    partial  # reduces arguments to function by making some subset implicit
+
 import jax
 import jax.numpy as jnp
 import numpy as np  # get rid of this eventually
 from jax.experimental.ode import odeint
-from functools import (
-    partial,
-)  # reduces arguments to function by making some subset implicit
 
 from ..lnn import solve_dynamics
 from ..utils import wrap_coords
-from .physics import lagrangian_fn, analytical_fn
+from .physics import analytical_fn, lagrangian_fn
 
 
 @partial(jax.jit, backend="cpu")

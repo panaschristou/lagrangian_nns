@@ -1,11 +1,12 @@
 """Start a hyperoptimization from a single node"""
 
-import sys
-import numpy as np
 import pickle as pkl
-import hyperopt
-from hyperopt import hp, fmin, tpe, Trials
+import sys
 
+import numpy as np
+
+import hyperopt
+from hyperopt import Trials, fmin, hp, tpe
 
 # Change the following code to your file
 ################################################################################

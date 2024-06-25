@@ -1,25 +1,21 @@
+from functools import \
+    partial  # reduces arguments to function by making some subset implicit
+
 import jax
 import jax.numpy as jnp
-from jax.tree_util import tree_flatten
 import numpy as np  # get rid of this eventually
-import argparse
 from jax import jit
+from jax.example_libraries import optimizers, stax
 from jax.experimental.ode import odeint
-from functools import (
-    partial,
-)  # reduces arguments to function by making some subset implicit
-from jax.example_libraries import stax
-from jax.example_libraries import optimizers
-from ..lnn import lagrangian_eom_rk4, lagrangian_eom, unconstrained_eom
-from ..experiment_dblpend.data import get_dataset
-from ..models import mlp as make_mlp
+from jax.tree_util import tree_flatten
+
 from utils import wrap_coords
 
-from ..experiment_dblpend.data import get_trajectory
-from ..experiment_dblpend.data import get_trajectory_analytic
+from ..experiment_dblpend.data import (get_dataset, get_trajectory,
+                                       get_trajectory_analytic)
 from ..experiment_dblpend.physics import analytical_fn
-
-from jax.experimental.ode import odeint
+from ..lnn import lagrangian_eom, lagrangian_eom_rk4, unconstrained_eom
+from ..models import mlp as make_mlp
 
 
 class ObjectView(object):
@@ -38,8 +34,8 @@ def learned_dynamics(params):
     return dynamics
 
 
-from jax.example_libraries.stax import serial, Dense, Softplus, Tanh, elementwise, Relu
-
+from jax.example_libraries.stax import (Dense, Relu, Softplus, Tanh,
+                                        elementwise, serial)
 
 sigmoid = jit(lambda x: 1 / (1 + jnp.exp(-x)))
 swish = jit(lambda x: x / (1 + jnp.exp(-x)))
@@ -173,7 +169,6 @@ def make_loss(args):
     return gln_loss
 
 
-from copy import deepcopy as copy
 from tqdm import tqdm
 
 

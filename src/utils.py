@@ -1,8 +1,9 @@
 # Generalized Lagrangian Networks | 2020
 # Miles Cranmer, Sam Greydanus, Stephan Hoyer (...)
 
-import jax.numpy as jnp
 import pickle
+
+import jax.numpy as jnp
 
 
 def wrap_coords(state):

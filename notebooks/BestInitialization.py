@@ -1,28 +1,25 @@
+from functools import \
+    partial  # reduces arguments to function by making some subset implicit
+
 import jax
 import jax.numpy as jnp
 import numpy as np  # get rid of this eventually
-import argparse
+from data import get_dataset
+from HyperparameterSearch import extended_mlp, learned_dynamics
 from jax import jit
+from jax.example_libraries import optimizers, stax
 from jax.experimental.ode import odeint
-from functools import (
-    partial,
-)  # reduces arguments to function by making some subset implicit
 
-from jax.example_libraries import stax
-from jax.example_libraries import optimizers
+from lnn import raw_lagrangian_eom
+from models import mlp as make_mlp
+from utils import wrap_coords
 
 # ## Set up LNN:
 
 
-from lnn import raw_lagrangian_eom
-from data import get_dataset
-from models import mlp as make_mlp
-from utils import wrap_coords
-
-from HyperparameterSearch import learned_dynamics
 
 
-from HyperparameterSearch import extended_mlp
+
 
 
 class ObjectView(object):
@@ -30,12 +27,7 @@ class ObjectView(object):
         self.__dict__ = d
 
 
-from data import get_trajectory
-
-
-from data import get_trajectory_analytic
-
-
+from data import get_trajectory, get_trajectory_analytic
 from physics import analytical_fn
 
 vfnc = jax.jit(jax.vmap(analytical_fn))
@@ -50,7 +42,6 @@ vget = partial(jax.jit, backend="cpu")(
 )
 
 
-import pickle as pkl
 
 
 # ## Here are our model parameters
@@ -84,10 +75,8 @@ while True:
     # args = loaded['args']
     rng = jax.random.PRNGKey(args.seed)
 
-    from jax.experimental.ode import odeint
-
     from HyperparameterSearch import new_get_dataset
-
+    from jax.experimental.ode import odeint
     from matplotlib import pyplot as plt
 
     vfnc = jax.jit(jax.vmap(analytical_fn, 0, 0))
@@ -129,16 +118,11 @@ while True:
     model = (nn_forward_fn, init_params)
     opt_init, opt_update, get_params = optimizers.adam(args.lr)
     opt_state = opt_init(init_params)
-    from jax.tree_util import tree_flatten
     from HyperparameterSearch import make_loss, train
-    from copy import deepcopy as copy
-
+    # Current std:
+    from jax.ops import index_update
     # train(args, model, data, rng);
     from jax.tree_util import tree_flatten
-
-    # Current std:
-
-    from jax.ops import index_update
 
     HyperparameterSearch.nn_forward_fn = nn_forward_fn
 
@@ -275,7 +259,7 @@ while True:
     # # Old stuff:
 
     import hyperopt
-    from hyperopt import hp, fmin, tpe, Trials
+    from hyperopt import Trials, fmin, hp, tpe
 
     def run_trial(args):
         loss, std = bb(**args)

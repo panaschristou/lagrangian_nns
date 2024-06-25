@@ -1,28 +1,27 @@
 # Generalized Lagrangian Networks | 2020
 # Miles Cranmer, Sam Greydanus, Stephan Hoyer (...)
 
+import os
+import sys
+import time
+from functools import \
+    partial  # reduces arguments to function by making some subset implicit
+
 import jax
 import jax.numpy as jnp
 import numpy as np  # get rid of this eventually
-import argparse
+from jax.example_libraries import optimizers, stax
 from jax.experimental.ode import odeint
-from functools import (
-    partial,
-)  # reduces arguments to function by making some subset implicit
-
-from jax.example_libraries import stax
-from jax.example_libraries import optimizers
-
-import os, sys, time
 
 THIS_DIR = os.path.dirname(os.path.abspath(__file__))
 PARENT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.append(PARENT_DIR)
 
 from lnn import lagrangian_eom, unconstrained_eom
-from .data import get_dataset
 from models import mlp
 from utils import wrap_coords
+
+from .data import get_dataset
 
 
 def get_args():

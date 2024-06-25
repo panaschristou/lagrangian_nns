@@ -1,10 +1,11 @@
 # Generalized Lagrangian Networks | 2020
 # Miles Cranmer, Sam Greydanus, Stephan Hoyer (...)
 
+from functools import partial
+
 import jax
 import jax.numpy as jnp
 from jax.experimental.ode import odeint
-from functools import partial
 
 
 # unconstrained equation of motion
