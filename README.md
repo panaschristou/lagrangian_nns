@@ -35,7 +35,5 @@ Dependencies
 --------
  * Jax
  * NumPy
- * MoviePy (visualization)
- * celluloid (visualization)
 
 This project is written in Python 3.
