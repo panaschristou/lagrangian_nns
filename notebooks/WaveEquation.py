@@ -14,26 +14,25 @@
 # ---
 
 # %%
+import pickle as pkl
+from copy import deepcopy as copy
+from functools import partial
+
 import jax
 import jax.numpy as jnp
 import numpy as np
+from celluloid import Camera
+from IPython.display import HTML
 from jax import jit
-from jax.experimental.ode import odeint
-from functools import partial
-
 from jax.example_libraries import optimizers
-
-import sys
-
-sys.path.append("..")
-
-# %%
-
-# %%
-sys.path.append("../hyperopt")
-
-# %%
-from HyperparameterSearch import extended_mlp
+from jax.experimental.ode import odeint
+from jax.tree_util import tree_flatten
+from lnn.hyperopt import HyperparameterSearch
+from lnn.hyperopt.HyperparameterSearch import (extended_mlp, make_loss,
+                                               new_get_dataset, train)
+from lnn.lnn import custom_init
+from matplotlib import pyplot as plt
+from tqdm.notebook import tqdm
 
 
 # %%
@@ -47,6 +46,7 @@ jjit = jax.jit
 # jjit = lambda _: _
 ic = lambda *args, **kwargs: None
 # from icecream import ic
+
 
 # %%
 # replace the lagrangian with a parameteric model
@@ -110,8 +110,6 @@ def raw_lagrangian_eom(lagrangian, state, t=None):
 # %% [markdown]
 # ### Now, let's load the best model. To generate more models, see the code below.
 
-# %%
-import pickle as pkl
 
 # %%
 # loaded = pkl.load(open('', 'rb'))
@@ -145,11 +143,6 @@ rng = jax.random.PRNGKey(args.seed)
 
 # %%
 
-# %%
-from HyperparameterSearch import new_get_dataset
-
-# %%
-from matplotlib import pyplot as plt
 
 # %%
 dx = 0.1  # (lambda _x: _x[1]-_x[0])(jnp.linspace(0, 1, num=args.gridsize))
@@ -197,8 +190,6 @@ def ofunc(y, t=None):
 
 state_t = odeint(ofunc, state0, all_t)
 
-from celluloid import Camera
-from IPython.display import HTML
 
 fig, ax = plt.subplots(1, 1)
 cam = Camera(fig)
@@ -257,7 +248,6 @@ best_loss = np.inf
 
 # %%
 init_random_params, nn_forward_fn = extended_mlp(args)
-import HyperparameterSearch
 
 HyperparameterSearch.nn_forward_fn = nn_forward_fn
 _, init_params = init_random_params(rng + 1, (-1, args.input_dim))
@@ -265,9 +255,8 @@ rng += 1
 model = (nn_forward_fn, init_params)
 opt_init, opt_update, get_params = optimizers.adam(args.lr)
 opt_state = opt_init([[l2 / 200.0 for l2 in l1] for l1 in init_params])
-from jax.tree_util import tree_flatten
-from HyperparameterSearch import make_loss, train
-from copy import deepcopy as copy
+
+
 # train(args, model, data, rng);
 
 
@@ -321,7 +310,6 @@ def OneCycleLR(pct):
     return low + (high - low) * scale
 
 
-from lnn import custom_init
 
 opt_init, opt_update, get_params = optimizers.adam(OneCycleLR)
 
@@ -360,10 +348,8 @@ plt.plot(batch_data[1][0])
 loss(init_params, [_x[:1] for _x in batch_data], 0.0) / len(batch_data[0])
 
 # %%
-update_derivative(0.0, opt_state, [_x[:1] for _x in batch_data], 0.0);
+update_derivative(0.0, opt_state, [_x[:1] for _x in batch_data], 0.0)
 
-# %%
-from tqdm.notebook import tqdm
 
 # %%
 # best_loss = np.inf
@@ -484,9 +470,6 @@ plt.plot(true_en)
 # %%
 plt.rc("font", family="serif")
 
-# %%
-from celluloid import Camera
-from IPython.display import HTML
 
 fig, allax = plt.subplots(2, 1, figsize=(4 * 3, 3 * 2))
 # allax = allax.T
@@ -560,6 +543,7 @@ ani.save("wave_equation.gif", writer="imagemagick", fps=24)
 # %%
 
 # %%
+
 
 # %%
 @jit
@@ -928,14 +912,7 @@ for _i in range(1000):
             open("params_for_loss_{}_nupdates=1.pkl".format(best_loss), "wb"),
         )
 
-# %%
-import importlib
 
-# %%
-import lnn
-
-# %%
-importlib.reload(lnn)
 
 # %%
 

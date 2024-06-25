@@ -14,25 +14,22 @@
 # ---
 
 # %%
+import pickle as pkl
+from copy import deepcopy as copy
+from functools import partial
+
 import jax
 import jax.numpy as jnp
 import numpy as np
 from jax import jit
-from jax.experimental.ode import odeint
-from functools import partial
-
 from jax.example_libraries import optimizers
-
-import sys
-
-sys.path.append("..")
-sys.path.append("../hyperopt")
-from HyperparameterSearch import extended_mlp
-
+from jax.experimental.ode import odeint
+from lnn.hyperopt.HyperparameterSearch import extended_mlp
+from matplotlib import pyplot as plt
+from tqdm.notebook import tqdm
 
 # %%
 
-# %%
 
 # %%
 def hamiltonian_eom(hamiltonian, state, conditionals, t=None):
@@ -91,8 +88,6 @@ def ofunc(y, t=None):
 # %%
 (jnp.tanh(jax.random.uniform(jax.random.PRNGKey(1), (1000,)) * 10 - 5) * 0.99999).max()
 
-# %%
-from matplotlib import pyplot as plt
 
 # %%
 plt.hist((jnp.tanh(jax.random.normal(jax.random.PRNGKey(1), (100,)) * 2) * 0.99999))
@@ -145,8 +140,7 @@ def gen_data_batch(seed, batch):
 cstate, cconditionals, ctarget = gen_data_batch(0, 5)
 cstate, cconditionals, ctarget
 
-# %%
-from matplotlib import pyplot as plt
+
 
 # %%
 # qdotdot(jnp.array([0]), jnp.array([0.9]), jnp.array([10]))
@@ -158,8 +152,6 @@ from matplotlib import pyplot as plt
 # 'layers': [4.0], 'lr': [0.005516656601005163],
 # 'lr2': [1.897157209816416e-05], 'n_updates': [4.0]}
 
-# %%
-import pickle as pkl
 
 # %%
 # loaded = pkl.load(open('./params_for_loss_0.29429444670677185_nupdates=1.pkl', 'rb'))
@@ -282,7 +274,7 @@ cstate, cconditionals, ctarget = gen_data_batch(epoch, 128)
 loss(get_params(opt_state), cstate, cconditionals, ctarget)
 
 # %%
-update_derivative(0, opt_state, cstate, cconditionals, ctarget);
+update_derivative(0, opt_state, cstate, cconditionals, ctarget)
 
 # %%
 rng = jax.random.PRNGKey(0)
@@ -290,8 +282,6 @@ rng = jax.random.PRNGKey(0)
 # %%
 epoch = 0
 
-# %%
-from tqdm.notebook import tqdm
 
 # %%
 gen_data_batch(0, 128)[0].shape
@@ -309,8 +299,6 @@ ctarget[:5]
 best_loss = np.inf
 best_params = None
 
-# %%
-from copy import deepcopy as copy
 
 # %%
 for epoch in tqdm(range(epoch, total_epochs)):

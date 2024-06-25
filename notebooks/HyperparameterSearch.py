@@ -14,25 +14,20 @@
 # ---
 
 # %%
+import importlib
+from copy import deepcopy as copy
+from functools import partial
+
 import jax
 import jax.numpy as jnp
 import numpy as np
-from functools import partial
-
 from jax.example_libraries import optimizers
-
-import sys
-
-sys.path.append("..")
-
-# %%
-sys.path.append("../experiment_dblpend/")
-
-# %%
-sys.path.append("../hyperopt")
-
-# %%
-from HyperparameterSearch import extended_mlp
+from jax.tree_util import tree_flatten
+from lnn.experiment_dblpend.data import get_trajectory_analytic
+from lnn.experiment_dblpend.physics import analytical_fn
+from lnn.hyperopt import HyperparameterSearch
+from lnn.hyperopt.HyperparameterSearch import (extended_mlp, make_loss,
+                                               new_get_dataset, train)
 
 
 # %%
@@ -43,11 +38,6 @@ class ObjectView(object):
 
 # %%
 
-# %%
-from data import get_trajectory_analytic
-
-# %%
-from physics import analytical_fn
 
 vfnc = jax.jit(jax.vmap(analytical_fn))
 vget = partial(jax.jit, backend="cpu")(
@@ -93,8 +83,6 @@ rng = jax.random.PRNGKey(args.seed)
 
 # %%
 
-# %%
-from HyperparameterSearch import new_get_dataset
 
 # %%
 
@@ -111,8 +99,6 @@ data = new_get_dataset(
 best_params = None
 best_loss = np.inf
 
-# %%
-from HyperparameterSearch import make_loss, train
 
 loss = make_loss(args)
 
@@ -122,7 +108,6 @@ opti = optimizers.adam
 # %%
 init_random_params, nn_forward_fn = extended_mlp(args)
 _, init_params = init_random_params(rng + 1, (-1, 4))
-import HyperparameterSearch
 
 HyperparameterSearch.nn_forward_fn = nn_forward_fn
 rng += 1
@@ -131,8 +116,7 @@ opt_init, opt_update, get_params = opti(
     3e-4
 )  ##lambda i: jnp.select([i<10000, i>= 10000], [args.lr, args.lr2]))
 opt_state = opt_init(init_params)
-from jax.tree_util import tree_flatten
-from copy import deepcopy as copy
+
 
 train(args, model, data, rng)
 
@@ -278,11 +262,7 @@ for _i in range(10000):
             open("params_for_loss_{}_nupdates=1.pkl".format(best_loss), "wb"),
         )
 
-# %%
-import importlib
 
-# %%
-import lnn
 
 # %%
 importlib.reload(lnn)

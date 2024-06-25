@@ -14,24 +14,24 @@
 # ---
 
 # %%
+import pickle as pkl
+from copy import deepcopy as copy
+from functools import partial
+
 import jax
 import jax.numpy as jnp
 import numpy as np
 from jax import jit
-from jax.experimental.ode import odeint
-from functools import partial
-from matplotlib import pyplot as plt
-
 from jax.example_libraries import optimizers
-from lnn.hyperopt.HyperparameterSearch import learned_dynamics, extended_mlp
-from lnn.hyperopt.HyperparameterSearch import new_get_dataset
+from jax.experimental.ode import odeint
+from jax.tree_util import tree_flatten
 from lnn.experiment_dblpend.data import get_trajectory_analytic
 from lnn.experiment_dblpend.physics import analytical_fn
 from lnn.hyperopt import HyperparameterSearch
-from lnn.hyperopt.HyperparameterSearch import make_loss, train
-from jax.tree_util import tree_flatten
-from copy import deepcopy as copy
-import pickle as pkl
+from lnn.hyperopt.HyperparameterSearch import (extended_mlp, learned_dynamics,
+                                               make_loss, new_get_dataset,
+                                               train)
+from matplotlib import pyplot as plt
 from tqdm.notebook import tqdm
 
 
@@ -133,6 +133,7 @@ best_loss = np.inf
 
 
 # %%
+
 
 # %%
 # @jax.jit

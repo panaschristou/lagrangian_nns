@@ -14,25 +14,26 @@
 # ---
 
 # %%
+from functools import partial
+
 import jax
 import jax.numpy as jnp
 import numpy as np
-from functools import partial
-from matplotlib import pyplot as plt
-
+from bayes_opt import BayesianOptimization
+from hyperopt import Trials, fmin, hp, tpe
 from jax import grad, vmap
 from jax.example_libraries import optimizers
-
-from lnn.experiment_dblpend.lnn import raw_lagrangian_eom
 from lnn.experiment_dblpend.data import get_trajectory_analytic
+from lnn.experiment_dblpend.lnn import raw_lagrangian_eom
 from lnn.experiment_dblpend.physics import analytical_fn
 from lnn.hyperopt import HyperparameterSearch
-from lnn.hyperopt.HyperparameterSearch import learned_dynamics
-from lnn.hyperopt.HyperparameterSearch import extended_mlp
-
+from lnn.hyperopt.HyperparameterSearch import extended_mlp, learned_dynamics
+from matplotlib import pyplot as plt
+from sklearn.gaussian_process import GaussianProcessRegressor
 
 # %% [markdown]
 # ## Set up LNN:
+
 
 # %%
 class ObjectView(object):
@@ -285,8 +286,6 @@ def bb(**kwargs):
 # %% [markdown]
 # # Old stuff:
 
-# %%
-from hyperopt import hp, fmin, tpe, Trials
 
 
 def run_trial(args):
@@ -375,8 +374,6 @@ simple_data = np.array(
 # %%
 # np.save('sdata.npy', simple_data)
 
-# %%
-from sklearn.gaussian_process import GaussianProcessRegressor
 
 # %%
 gp = GaussianProcessRegressor(alpha=3, n_restarts_optimizer=20, normalize_y=True)
@@ -441,8 +438,6 @@ plt.scatter(simple_data[:, 0], simple_data[:, 1], c=simple_data[:, -1])
 
 # %%
 
-# %%
-from bayes_opt import BayesianOptimization
 
 # %%
 optimizer = BayesianOptimization(
@@ -482,8 +477,6 @@ np.save(
     "hidden={}_layers={}_results.npy".format(args.hidden_dim, args.layers), simple_data
 )
 
-# %%
-from sklearn.gaussian_process import GaussianProcessRegressor
 
 # %%
 gp = GaussianProcessRegressor(alpha=1e-2, n_restarts_optimizer=20, normalize_y=True)

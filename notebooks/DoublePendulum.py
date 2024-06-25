@@ -14,33 +14,32 @@
 # ---
 
 # %%
-# %load_ext autoreload
-# %autoreload 2
-import jax
+import importlib
+import pickle as pkl
+from copy import deepcopy as copy
+from functools import partial
 
-print(jax.__version__)
-
-# %%
 import jax
 import jax.numpy as jnp
 import numpy as np
-from functools import partial
 from jax import jit
 from jax.example_libraries import optimizers
 from jax.experimental.ode import odeint
-
-from lnn.lnn import raw_lagrangian_eom, custom_init
+from jax.tree_util import tree_flatten
 from lnn.experiment_dblpend.data import get_trajectory_analytic
 from lnn.experiment_dblpend.physics import analytical_fn
-from lnn.hyperopt.HyperparameterSearch import learned_dynamics
-from lnn.hyperopt.HyperparameterSearch import extended_mlp
-from lnn.hyperopt.HyperparameterSearch import new_get_dataset
 from lnn.hyperopt import HyperparameterSearch
-from lnn.hyperopt.HyperparameterSearch import make_loss, train
-import pickle as pkl
-import lnn.hyperopt.HyperparameterSearch
-from jax.tree_util import tree_flatten
-from copy import deepcopy as copy
+from lnn.hyperopt.HyperparameterSearch import (extended_mlp, learned_dynamics,
+                                               make_loss, new_get_dataset,
+                                               train)
+from lnn.lnn import custom_init, raw_lagrangian_eom
+from matplotlib import pyplot as plt
+from tqdm.notebook import tqdm
+
+print(jax.__version__)
+
+
+
 
 
 # %%
@@ -101,8 +100,6 @@ args = ObjectView(
 # args = loaded['args']
 rng = jax.random.PRNGKey(args.seed)
 
-# %%
-from matplotlib import pyplot as plt
 
 # %%
 vfnc = jax.jit(jax.vmap(analytical_fn, 0, 0))
@@ -249,8 +246,6 @@ loss(get_params(opt_state), batch_data, 0.0) / len(batch_data[0])
 # %%
 opt_state, params = update_derivative(0.0, opt_state, batch_data, 0.0)
 
-# %%
-from tqdm.notebook import tqdm
 
 # %%
 # best_loss = np.inf
@@ -702,11 +697,7 @@ for _i in range(1000):
             open("params_for_loss_{}_nupdates=1.pkl".format(best_loss), "wb"),
         )
 
-# %%
-import importlib
 
-# %%
-import lnn
 
 # %%
 importlib.reload(lnn)

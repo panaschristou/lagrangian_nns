@@ -10,7 +10,6 @@ import jax.numpy as jnp
 import numpy as np
 from jax.example_libraries import optimizers
 from jax.tree_util import tree_flatten
-
 from lnn.experiment_dblpend.data import get_trajectory_analytic
 from lnn.experiment_dblpend.physics import analytical_fn
 from lnn.hyperopt import HyperparameterSearch
