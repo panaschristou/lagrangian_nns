@@ -2,41 +2,26 @@
 # coding: utf-8
 
 
-import sys
-from functools import \
-    partial  # reduces arguments to function by making some subset implicit
+from copy import deepcopy as copy
+from functools import partial
 
 import jax
 import jax.numpy as jnp
-import numpy as np  # get rid of this eventually
-from jax import jit
-from jax.example_libraries import optimizers, stax
-from jax.experimental.ode import odeint
+import numpy as np
+from jax.example_libraries import optimizers
+from jax.tree_util import tree_flatten
 
-sys.path.append("..")
-
-
-sys.path.append("../experiment_dblpend/")
-
-from data import get_dataset
-
-from lnn import lagrangian_eom, lagrangian_eom_rk4, unconstrained_eom
-from models import mlp as make_mlp
-from utils import wrap_coords
-
-sys.path.append("../hyperopt")
-
-
-from HyperparameterSearch import extended_mlp
+from lnn.data import get_trajectory_analytic
+from lnn.hyperopt import HyperparameterSearch
+from lnn.hyperopt.HyperparameterSearch import (extended_mlp, make_loss,
+                                               new_get_dataset, train)
+from lnn.physics import analytical_fn
 
 
 class ObjectView(object):
     def __init__(self, d):
         self.__dict__ = d
 
-
-from data import get_trajectory, get_trajectory_analytic
-from physics import analytical_fn
 
 vfnc = jax.jit(jax.vmap(analytical_fn))
 vget = partial(jax.jit, backend="cpu")(
@@ -81,10 +66,6 @@ args = ObjectView(
 rng = jax.random.PRNGKey(args.seed) + 500
 
 
-from HyperparameterSearch import new_get_dataset
-from jax.experimental.ode import odeint
-from matplotlib import pyplot as plt
-
 data = new_get_dataset(
     rng + 2,
     t_span=[0, args.dataset_size],
@@ -103,7 +84,6 @@ opti = optimizers.adam
 
 init_random_params, nn_forward_fn = extended_mlp(args)
 _, init_params = init_random_params(rng + 1, (-1, 4))
-import HyperparameterSearch
 
 HyperparameterSearch.nn_forward_fn = nn_forward_fn
 rng += 1
@@ -112,14 +92,10 @@ opt_init, opt_update, get_params = opti(
     3e-4
 )  ##lambda i: jnp.select([i<10000, i>= 10000], [args.lr, args.lr2]))
 opt_state = opt_init(init_params)
-from HyperparameterSearch import make_loss, train
-from jax.tree_util import tree_flatten
 
 loss = make_loss(args)
-from copy import deepcopy as copy
 
 train(args, model, data, rng)
-from jax.tree_util import tree_flatten
 
 
 @jax.jit

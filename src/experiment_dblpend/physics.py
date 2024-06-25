@@ -1,7 +1,6 @@
 # Generalized Lagrangian Networks | 2020
 # Miles Cranmer, Sam Greydanus, Stephan Hoyer (...)
 
-import jax
 import jax.numpy as jnp
 from jax import jit
 
@@ -23,6 +22,7 @@ def kinetic_energy(q, q_dot, m1=1, m2=1, l1=1, l2=1, g=9.8):
 @jit
 def potential_energy(q, q_dot, m1=1, m2=1, l1=1, l2=1, g=9.8):
     (t1, t2), (w1, w2) = q, q_dot
+    del w1, w2
 
     y1 = -l1 * jnp.cos(t1)
     y2 = y1 - l2 * jnp.cos(t2)
@@ -33,8 +33,7 @@ def potential_energy(q, q_dot, m1=1, m2=1, l1=1, l2=1, g=9.8):
 # Double pendulum lagrangian
 @jit
 def lagrangian_fn(q, q_dot, m1=1, m2=1, l1=1, l2=1, g=9.8):
-    (t1, t2), (w1, w2) = q, q_dot
-
+    # (t1, t2), (w1, w2) = q, q_dot
     T = kinetic_energy(q, q_dot, m1=1, m2=1, l1=1, l2=1, g=9.8)
     V = potential_energy(q, q_dot, m1=1, m2=1, l1=1, l2=1, g=9.8)
     return T - V
@@ -43,7 +42,7 @@ def lagrangian_fn(q, q_dot, m1=1, m2=1, l1=1, l2=1, g=9.8):
 # Double pendulum lagrangian
 @jit
 def hamiltonian_fn(q, q_dot, m1=1, m2=1, l1=1, l2=1, g=9.8):
-    (t1, t2), (w1, w2) = q, q_dot
+    # (t1, t2), (w1, w2) = q, q_dot
 
     T = kinetic_energy(q, q_dot, m1=1, m2=1, l1=1, l2=1, g=9.8)
     V = potential_energy(q, q_dot, m1=1, m2=1, l1=1, l2=1, g=9.8)

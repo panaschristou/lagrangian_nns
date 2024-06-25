@@ -4,10 +4,7 @@
 # visualization
 import matplotlib.pyplot as plt
 import numpy as np  # get rid of this eventually
-import proglog
 from matplotlib.patches import Circle
-from moviepy.editor import ImageSequenceClip
-from PIL import Image
 
 from .utils import radial2cartesian
 

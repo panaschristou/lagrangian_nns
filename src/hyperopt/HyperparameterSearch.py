@@ -1,21 +1,18 @@
-from functools import \
-    partial  # reduces arguments to function by making some subset implicit
+from functools import partial
 
 import jax
 import jax.numpy as jnp
-import numpy as np  # get rid of this eventually
+import numpy as np
 from jax import jit
 from jax.example_libraries import optimizers, stax
-from jax.experimental.ode import odeint
+from jax.example_libraries.stax import Dense, Relu, Softplus, Tanh, elementwise
 from jax.tree_util import tree_flatten
 
 from utils import wrap_coords
 
-from ..experiment_dblpend.data import (get_dataset, get_trajectory,
-                                       get_trajectory_analytic)
+from ..experiment_dblpend.data import get_trajectory_analytic
 from ..experiment_dblpend.physics import analytical_fn
-from ..lnn import lagrangian_eom, lagrangian_eom_rk4, unconstrained_eom
-from ..models import mlp as make_mlp
+from ..lnn import lagrangian_eom_rk4
 
 
 class ObjectView(object):
@@ -33,9 +30,6 @@ def learned_dynamics(params):
 
     return dynamics
 
-
-from jax.example_libraries.stax import (Dense, Relu, Softplus, Tanh,
-                                        elementwise, serial)
 
 sigmoid = jit(lambda x: 1 / (1 + jnp.exp(-x)))
 swish = jit(lambda x: x / (1 + jnp.exp(-x)))
@@ -159,6 +153,8 @@ def make_loss(args):
         @jax.jit
         def gln_loss(params, batch, l2reg):
             state, targets = batch
+            leaves, _ = tree_flatten(params)
+            l2_norm = sum(jnp.vdot(param, param) for param in leaves)
             preds = jax.vmap(partial(lagrangian_eom_rk4, learned_dynamics(params)))(
                 state
             )
@@ -167,9 +163,6 @@ def make_loss(args):
             )
 
     return gln_loss
-
-
-from tqdm import tqdm
 
 
 def train(args, model, data, rng):
@@ -236,8 +229,6 @@ def train(args, model, data, rng):
     params = get_params(opt_state)
     return params, train_losses, test_losses, best_loss
 
-
-from matplotlib import pyplot as plt
 
 data = new_get_dataset(
     jax.random.PRNGKey(0),

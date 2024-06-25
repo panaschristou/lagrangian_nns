@@ -1,8 +1,7 @@
 # Generalized Lagrangian Networks | 2020
 # Miles Cranmer, Sam Greydanus, Stephan Hoyer (...)
 
-from functools import \
-    partial  # reduces arguments to function by making some subset implicit
+from functools import partial
 
 import jax
 import jax.numpy as jnp

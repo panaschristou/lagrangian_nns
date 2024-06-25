@@ -2,9 +2,9 @@ import sys
 
 data = sys.stdin.read()
 
-for l in data.split("\n"):
+for line in data.split("\n"):
     cur_line = (
-        l.replace("  ", " ")
+        line.replace("  ", " ")
         .replace("  ", " ")
         .replace("  ", " ")
         .replace("  ", " ")

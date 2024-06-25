@@ -1,12 +1,12 @@
 """Start a hyperoptimization from a single node"""
 
+import glob
 import pickle as pkl
 import sys
 
 import numpy as np
 
-import hyperopt
-from hyperopt import Trials, fmin, hp, tpe
+from hyperopt import Trials
 
 # Change the following code to your file
 ################################################################################
@@ -50,7 +50,6 @@ def merge_trials(trials1, trials2_slice):
 np.random.seed()
 
 # Load up all runs:
-import glob
 
 path = TRIALS_FOLDER + "/*.pkl"
 files = 0
@@ -74,7 +73,7 @@ for trial in trials:
     loss = trial["result"]["loss"]
     all_trials.append([trial["result"]["loss"], trial["misc"]["vals"]])
 
-best_trials = sorted(all_trials, key=lambda l: l[0])
+best_trials = sorted(all_trials, key=lambda trial_data: trial_data[0])
 
 for t in reversed(best_trials):
     print(t[0], t[1])
