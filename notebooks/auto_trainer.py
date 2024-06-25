@@ -11,7 +11,7 @@ import numpy as np
 from jax.example_libraries import optimizers
 from jax.tree_util import tree_flatten
 
-from lnn.data import get_trajectory_analytic
+from lnn.experiment_dblpend.data import get_trajectory_analytic
 from lnn.hyperopt import HyperparameterSearch
 from lnn.hyperopt.HyperparameterSearch import (extended_mlp, make_loss,
                                                new_get_dataset, train)
