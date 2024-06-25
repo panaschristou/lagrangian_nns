@@ -34,16 +34,15 @@ def get_trajectory(y0, times, use_lagrangian=False, **kwargs):
 
 
 @partial(jax.jit, backend="cpu")
-def get_trajectory_lagrangian(y0, times, **kwargs):
+def get_trajectory_lagrangian(y0, times, mxstep=100, **kwargs):
     return solve_dynamics(
-        lagrangian_fn, y0, t=times, is_lagrangian=True, rtol=1e-10, atol=1e-10, **kwargs
+        lagrangian_fn, y0, t=times, is_lagrangian=True, rtol=1e-10, atol=1e-10, mxstep=mxstep **kwargs
     )
 
 
 @partial(jax.jit, backend="cpu")
-def get_trajectory_analytic(y0, times, **kwargs):
-    return odeint(analytical_fn, y0, t=times, rtol=1e-10, atol=1e-10, **kwargs)
-
+def get_trajectory_analytic(y0, times, mxstep=100, **kwargs):
+    return odeint(analytical_fn, y0, t=times, rtol=1e-10, atol=1e-10, mxstep=mxstep, **kwargs)
 
 def get_dataset(seed=0, samples=1, t_span=[0, 2000], fps=1, test_split=0.5, **kwargs):
     data = {"meta": locals()}

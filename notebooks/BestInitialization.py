@@ -50,10 +50,7 @@ class ObjectView(object):
 vfnc = jax.jit(jax.vmap(analytical_fn))
 vget = partial(jax.jit, backend="cpu")(
     jax.vmap(
-        partial(
-            get_trajectory_analytic,
-            mxstep=100,
-        ),
+        get_trajectory_analytic,
         (0, None),
         0,
     )
@@ -99,7 +96,7 @@ rng = jax.random.PRNGKey(args.seed)
 vfnc = jax.jit(jax.vmap(analytical_fn, 0, 0))
 vget = partial(jax.jit, backend="cpu")(
     jax.vmap(
-        partial(get_trajectory_analytic, mxstep=100),
+        get_trajectory_analytic,
         (0, None),
         0,
     )
