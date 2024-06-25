@@ -51,6 +51,7 @@ vget = partial(jax.jit, backend="cpu")(
     jax.vmap(
         partial(
             get_trajectory_analytic,
+            mxstep=100,
         ),
         (0, None),
         0,
@@ -104,6 +105,7 @@ vget = partial(jax.jit, backend="cpu")(
     jax.vmap(
         partial(
             get_trajectory_analytic,
+            mxstep=100,
         ),
         (0, None),
         0,
@@ -327,6 +329,7 @@ pred_tall = jax.device_get(
         partial(raw_lagrangian_eom, learned_dynamics(p)),
         t,
         np.linspace(0, max_t, num=new_dataset["x"].shape[0]),
+        mxstep=100,
     )
 )
 
@@ -385,6 +388,7 @@ for i in tqdm(range(40)):
             partial(raw_lagrangian_eom, learned_dynamics(p)),
             t,
             np.linspace(0, max_t, num=new_dataset["x"].shape[0]),
+            mxstep=100,
         )
     )
 

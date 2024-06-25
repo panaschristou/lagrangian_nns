@@ -52,6 +52,7 @@ vget = partial(jax.jit, backend="cpu")(
     jax.vmap(
         partial(
             get_trajectory_analytic,
+            mxstep=100,
         ),
         (0, None),
         0,
@@ -100,6 +101,7 @@ vget = partial(jax.jit, backend="cpu")(
     jax.vmap(
         partial(
             get_trajectory_analytic,
+            mxstep=100
         ),
         (0, None),
         0,
