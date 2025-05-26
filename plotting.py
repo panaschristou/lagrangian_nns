@@ -7,7 +7,7 @@ from functools import partial # reduces arguments to function by making some sub
 # visualization
 import matplotlib.pyplot as plt
 from matplotlib.patches import Circle
-from moviepy.editor import ImageSequenceClip
+from moviepy import ImageSequenceClip
 from functools import partial
 import proglog
 from PIL import Image
